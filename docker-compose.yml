@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  web:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    ports:
+      - "8080:8080"
