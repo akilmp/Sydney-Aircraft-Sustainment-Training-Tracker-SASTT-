@@ -290,8 +290,4 @@ Base URL: `/api/v1`
 * Digital signatures.
 * Advanced scheduling.
 
----
 
-## 17. Personal Notes
-
-I made this around **Sydney** because it’s my home. Seed data references real runways and conditions, but no sensitive data. I built it in C# and Oracle to mirror the stack used at BAE Systems and to push myself to follow enterprise discipline.
