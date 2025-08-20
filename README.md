@@ -16,10 +16,9 @@
 **Quick Start**
 
 1. `docker compose up -d` (spins up Oracle XE and the web app)
-2. Set env vars (see **Config**).
-3. `dotnet ef database update` → `dotnet run`
+2. Copy `.env.example` to `.env` and set `ORACLE__CONNECTIONSTRING`, `WEATHER__APIKEY`, and `APP__DEFAULTBASE`.
+3. The web container entrypoint runs `dotnet ef database update` and `--seed` automatically.
 4. Login as `admin@sastt.local` / `Passw0rd!` (dev)
-5. Load seed data: `dotnet run -- --seed`
 
 ---
 
@@ -237,6 +236,8 @@ Base URL: `/api/v1`
 ---
 
 ## 10. Configuration
+
+The web application requires the following environment variables. Copy `.env.example` to `.env` and adjust the values for your environment.
 
 | Setting               | Env Var                    | Example                                                         |
 | --------------------- | -------------------------- | --------------------------------------------------------------- |
