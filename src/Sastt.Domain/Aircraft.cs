@@ -1,13 +1,28 @@
-using System.Collections.Generic;
-
 namespace Sastt.Domain;
+
+public enum AircraftStatus
+{
+    Draft,
+    Planned,
+    InProgress,
+    QaReview,
+    Closed
+}
 
 public class Aircraft
 {
-    public int Id { get; set; }
     public string TailNumber { get; set; } = string.Empty;
-    public string? Type { get; set; }
-    public string? Base { get; set; }
+    public string Base { get; set; } = string.Empty;
+    public AircraftStatus Status { get; private set; } = AircraftStatus.Draft;
 
-    public ICollection<WorkOrder> WorkOrders { get; set; } = new List<WorkOrder>();
+    public void AdvanceStatus()
+    {
+        if (Status == AircraftStatus.Closed)
+        {
+            throw new InvalidOperationException("Cannot advance closed work order");
+        }
+
+        Status++;
+    }
+
 }
