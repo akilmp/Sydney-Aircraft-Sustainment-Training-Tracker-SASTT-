@@ -1,0 +1,15 @@
+@page
+@model Sastt.Web.Pages.Dashboard.IndexModel
+
+<h2>Weather Snapshot</h2>
+@if (Model.Snapshot is not null)
+{
+    <p>Base: @Model.Snapshot.BaseCode</p>
+    <p>Temperature: @Model.Snapshot.TemperatureC &deg;C</p>
+    <p>Conditions: @Model.Snapshot.Conditions</p>
+    <p>Retrieved: @Model.Snapshot.RetrievedAt</p>
+}
+else
+{
+    <p>No data available.</p>
+}

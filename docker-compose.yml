@@ -32,8 +32,10 @@ services:
     networks:
       - sastt-net
 
+
 volumes:
   oracle-data:
 
 networks:
   sastt-net:
+
