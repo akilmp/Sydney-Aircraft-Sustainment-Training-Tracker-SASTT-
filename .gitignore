@@ -1,0 +1,13 @@
+# Build results
+bin/
+obj/
+**/bin/
+**/obj/
+
+# VS Code / Visual Studio
+.vs/
+*.user
+*.suo
+
+# Others
+*.swp
