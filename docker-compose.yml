@@ -3,17 +3,39 @@ version: '3.8'
 services:
   oracle:
     image: gvenzl/oracle-xe:21-slim
-    restart: unless-stopped
+    container_name: sastt-oracle
     ports:
       - "1521:1521"
+      - "5500:5500"
     environment:
-      ORACLE_PASSWORD: "Passw0rd!"
-      APP_USER: "SASTT"
-      APP_USER_PASSWORD: "SasttPassw0rd!"
-      ORACLE_CHARACTERSET: "AL32UTF8"
+      ORACLE_PASSWORD: oracle
     volumes:
       - oracle-data:/opt/oracle/oradata
+    networks:
+      - sastt-net
+
+  web:
+    build:
+      context: .
+    container_name: sastt-web
+    depends_on:
+      - oracle
+    environment:
+      ORACLE__CONNECTIONSTRING: ${ORACLE__CONNECTIONSTRING}
+      WEATHER__APIKEY: ${WEATHER__APIKEY}
+      APP__DEFAULTBASE: ${APP__DEFAULTBASE}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scripts/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    networks:
+      - sastt-net
+
 
 volumes:
   oracle-data:
+
+networks:
+  sastt-net:
 
