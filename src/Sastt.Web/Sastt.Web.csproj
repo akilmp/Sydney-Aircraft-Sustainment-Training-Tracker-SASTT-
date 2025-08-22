@@ -3,8 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../Sastt.Application/Sastt.Application.csproj" />
     <ProjectReference Include="../Sastt.Infrastructure/Sastt.Infrastructure.csproj" />
-    <ProjectReference Include="../Sastt.Domain/Sastt.Domain.csproj" />
-
   </ItemGroup>
 </Project>
