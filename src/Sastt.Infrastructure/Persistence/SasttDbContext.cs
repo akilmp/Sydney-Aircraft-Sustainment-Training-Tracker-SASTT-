@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Sastt.Domain;
+using Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence;
 
@@ -16,6 +17,7 @@ public class SasttDbContext : DbContext
     public DbSet<Defect> Defects => Set<Defect>();
     public DbSet<Pilot> Pilots => Set<Pilot>();
     public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
