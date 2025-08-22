@@ -15,7 +15,7 @@ public class WorkOrder : Base
         if (newStatus != Status)
         {
             Status = newStatus;
-            DomainEvents.Add(new WorkOrderStatusChangedEvent(Id, newStatus));
+            AddDomainEvent(new WorkOrderStatusChangedEvent(Id, newStatus));
         }
     }
 }
