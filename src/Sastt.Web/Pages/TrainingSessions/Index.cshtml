@@ -1,0 +1,28 @@
+@page
+@model Sastt.Web.Pages.TrainingSessions.IndexModel
+@{
+    ViewData["Title"] = "Training Sessions";
+}
+
+<h1>Training Sessions</h1>
+<input id="filter" type="text" placeholder="Filter sessions" class="form-control" />
+<table id="items" class="table">
+    <thead><tr><th>Pilot</th><th>Scheduled For</th><th>Completed</th></tr></thead>
+    <tbody>
+@foreach (var session in Model.Items)
+{
+    <tr>
+        <td><a asp-page="Details" asp-route-id="@session.Id">@session.PilotId</a></td>
+        <td>@session.ScheduledFor</td>
+        <td>@session.Completed</td>
+    </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script type="module">
+        import { attachFilter } from '/js/filterWidget.js';
+        attachFilter('filter','items');
+    </script>
+}

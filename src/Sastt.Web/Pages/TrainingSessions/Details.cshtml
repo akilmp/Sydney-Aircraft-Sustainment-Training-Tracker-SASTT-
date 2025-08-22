@@ -1,0 +1,19 @@
+@page "{id:guid}"
+@model Sastt.Web.Pages.TrainingSessions.DetailsModel
+@{
+    ViewData["Title"] = "Training Session Details";
+}
+
+<h1>Training Session Details</h1>
+@if (Model.Item is not null)
+{
+    <dl>
+        <dt>Pilot</dt><dd>@Model.Item.PilotId</dd>
+        <dt>Scheduled For</dt><dd>@Model.Item.ScheduledFor</dd>
+        <dt>Completed</dt><dd>@Model.Item.Completed</dd>
+    </dl>
+}
+else
+{
+    <p>Training session not found.</p>
+}

@@ -1,0 +1,19 @@
+@page "{id:int}"
+@model Sastt.Web.Pages.Tasks.DetailsModel
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<h1>Task Details</h1>
+@if (Model.Item is not null)
+{
+    <dl>
+        <dt>Description</dt><dd>@Model.Item.Description</dd>
+        <dt>Completed</dt><dd>@Model.Item.IsCompleted</dd>
+        <dt>Work Order</dt><dd>@Model.Item.WorkOrderId</dd>
+    </dl>
+}
+else
+{
+    <p>Task not found.</p>
+}
