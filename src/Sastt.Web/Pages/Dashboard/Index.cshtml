@@ -13,3 +13,13 @@ else
 {
     <p>No data available.</p>
 }
+
+<h2>Data Overview</h2>
+<ul>
+    <li><a asp-page="/Aircraft/Index">Aircraft (@Model.AircraftCount)</a></li>
+    <li><a asp-page="/WorkOrders/Index">Work Orders (@Model.WorkOrderCount)</a></li>
+    <li><a asp-page="/Tasks/Index">Tasks (@Model.TaskCount)</a></li>
+    <li><a asp-page="/Defects/Index">Defects (@Model.DefectCount)</a></li>
+    <li><a asp-page="/Pilots/Index">Pilots (@Model.PilotCount)</a></li>
+    <li><a asp-page="/TrainingSessions/Index">Training Sessions (@Model.TrainingSessionCount)</a></li>
+</ul>

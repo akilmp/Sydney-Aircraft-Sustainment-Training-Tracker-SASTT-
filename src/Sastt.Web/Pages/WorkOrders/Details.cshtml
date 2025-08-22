@@ -1,0 +1,20 @@
+@page "{id:guid}"
+@model Sastt.Web.Pages.WorkOrders.DetailsModel
+@{
+    ViewData["Title"] = "Work Order Details";
+}
+
+<h1>Work Order Details</h1>
+@if (Model.Item is not null)
+{
+    <dl>
+        <dt>Id</dt><dd>@Model.Item.Id</dd>
+        <dt>Aircraft</dt><dd>@Model.Item.AircraftId</dd>
+        <dt>Status</dt><dd>@Model.Item.Status</dd>
+        <dt>Priority</dt><dd>@Model.Item.Priority</dd>
+    </dl>
+}
+else
+{
+    <p>Work order not found.</p>
+}

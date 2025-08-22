@@ -8,7 +8,9 @@ services:
       - "1521:1521"
       - "5500:5500"
     environment:
-      ORACLE_PASSWORD: oracle
+      ORACLE_PASSWORD: Passw0rd!
+      APP_USER: SASTT
+      APP_USER_PASSWORD: Passw0rd!
     volumes:
       - oracle-data:/opt/oracle/oradata
     networks:

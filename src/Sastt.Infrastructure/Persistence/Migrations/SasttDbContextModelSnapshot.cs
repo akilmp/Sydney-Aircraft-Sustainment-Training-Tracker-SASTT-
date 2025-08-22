@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sastt.Infrastructure.Persistence;
 
@@ -13,202 +14,325 @@ namespace Sastt.Infrastructure.Persistence.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.0");
 
-            modelBuilder.Entity("Sastt.Domain.Aircraft", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)")
-                        .HasAnnotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1");
+            modelBuilder.Entity("Sastt.Domain.Entities.Aircraft", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
 
-                    b.Property<string>("Base")
-                        .HasMaxLength(10)
-                        .HasColumnType("NVARCHAR2(10)");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.Property<string>("TailNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)");
+                b.Property<string>("Model")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("NVARCHAR2(100)");
 
-                    b.Property<string>("Type")
-                        .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                b.Property<string>("TailNumber")
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("NVARCHAR2(20)");
 
-                    b.HasKey("Id");
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.ToTable("Aircraft");
-                });
+                b.HasKey("Id");
 
-            modelBuilder.Entity("Sastt.Domain.Defect", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)")
-                        .HasAnnotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1");
+                b.ToTable("Aircraft");
+            });
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)");
+            modelBuilder.Entity("Sastt.Domain.Entities.AuditLog", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
 
-                    b.Property<bool>("IsClosed")
-                        .HasColumnType("NUMBER(1)");
+                b.Property<string>("Action")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
 
-                    b.Property<string>("Severity")
-                        .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.Property<int>("WorkOrderId")
-                        .HasColumnType("NUMBER(10)");
+                b.Property<DateTime>("Timestamp")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.HasKey("Id");
+                b.Property<Guid>("UserId")
+                    .HasColumnType("RAW(16)");
 
-                    b.HasIndex("WorkOrderId");
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.ToTable("Defects");
-                });
+                b.HasKey("Id");
 
-            modelBuilder.Entity("Sastt.Domain.Pilot", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)")
-                        .HasAnnotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1");
+                b.HasIndex("UserId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("NVARCHAR2(200)");
+                b.ToTable("AuditLogs");
+            });
 
-                    b.HasKey("Id");
+            modelBuilder.Entity("Sastt.Domain.Entities.Defect", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
 
-                    b.ToTable("Pilots");
-                });
+                b.Property<Guid>("AircraftId")
+                    .HasColumnType("RAW(16)");
 
-            modelBuilder.Entity("Sastt.Domain.TrainingSession", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)")
-                        .HasAnnotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.Property<int>("Hours")
-                        .HasColumnType("NUMBER(10)");
+                b.Property<string>("Description")
+                    .HasMaxLength(500)
+                    .HasColumnType("NVARCHAR2(500)");
 
-                    b.Property<int>("PilotId")
-                        .HasColumnType("NUMBER(10)");
+                b.Property<bool>("IsResolved")
+                    .HasColumnType("NUMBER(1)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TIMESTAMP");
+                b.Property<int>("Priority")
+                    .HasColumnType("NUMBER(10)");
 
-                    b.HasKey("Id");
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.HasIndex("PilotId");
+                b.HasKey("Id");
 
-                    b.ToTable("TrainingSessions");
-                });
+                b.HasIndex("AircraftId");
 
-            modelBuilder.Entity("Sastt.Domain.WorkOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)")
-                        .HasAnnotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1");
+                b.ToTable("Defects");
+            });
 
-                    b.Property<int>("AircraftId")
-                        .HasColumnType("NUMBER(10)");
+            modelBuilder.Entity("Sastt.Domain.Entities.Pilot", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("NVARCHAR2(200)");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.HasKey("Id");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
 
-                    b.HasIndex("AircraftId");
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.ToTable("WorkOrders");
-                });
+                b.HasKey("Id");
 
-            modelBuilder.Entity("Sastt.Domain.WorkOrderTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)")
-                        .HasAnnotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1");
+                b.ToTable("Pilots");
+            });
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)");
+            modelBuilder.Entity("Sastt.Domain.Entities.PilotCurrency", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("NUMBER(1)");
+                b.Property<string>("CurrencyType")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("NVARCHAR2(100)");
 
-                    b.Property<int>("WorkOrderId")
-                        .HasColumnType("NUMBER(10)");
+                b.Property<DateTime>("ExpirationDate")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.HasKey("Id");
+                b.Property<Guid>("PilotId")
+                    .HasColumnType("RAW(16)");
 
-                    b.HasIndex("WorkOrderId");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.ToTable("WorkOrderTasks");
-                });
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-            modelBuilder.Entity("Sastt.Domain.Defect", b =>
-                {
-                    b.HasOne("Sastt.Domain.WorkOrder", "WorkOrder")
-                        .WithMany("Defects")
-                        .HasForeignKey("WorkOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasKey("Id");
 
-                    b.Navigation("WorkOrder");
-                });
+                b.HasIndex("PilotId");
 
-            modelBuilder.Entity("Sastt.Domain.TrainingSession", b =>
-                {
-                    b.HasOne("Sastt.Domain.Pilot", "Pilot")
-                        .WithMany("TrainingSessions")
-                        .HasForeignKey("PilotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.ToTable("PilotCurrencies");
+            });
 
-                    b.Navigation("Pilot");
-                });
+            modelBuilder.Entity("Sastt.Domain.Entities.Task", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
 
-            modelBuilder.Entity("Sastt.Domain.WorkOrder", b =>
-                {
-                    b.HasOne("Sastt.Domain.Aircraft", "Aircraft")
-                        .WithMany("WorkOrders")
-                        .HasForeignKey("AircraftId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-                    b.Navigation("Aircraft");
-                });
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnType("NVARCHAR2(500)");
 
-            modelBuilder.Entity("Sastt.Domain.WorkOrderTask", b =>
-                {
-                    b.HasOne("Sastt.Domain.WorkOrder", "WorkOrder")
-                        .WithMany("Tasks")
-                        .HasForeignKey("WorkOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<int>("Status")
+                    .HasColumnType("NUMBER(10)");
 
-                    b.Navigation("WorkOrder");
-                });
+                b.Property<Guid>("WorkOrderId")
+                    .HasColumnType("RAW(16)");
 
-            modelBuilder.Entity("Sastt.Domain.Aircraft", b => { });
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
 
-            modelBuilder.Entity("Sastt.Domain.Pilot", b => { });
+                b.HasKey("Id");
 
-            modelBuilder.Entity("Sastt.Domain.WorkOrder", b => { });
+                b.HasIndex("WorkOrderId");
 
-            modelBuilder.Entity("Sastt.Domain.WorkOrderTask", b => { });
+                b.ToTable("Tasks");
+            });
 
-#pragma warning restore 612, 618
+            modelBuilder.Entity("Sastt.Domain.Entities.TrainingSession", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
+
+                b.Property<bool>("Completed")
+                    .HasColumnType("NUMBER(1)");
+
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
+
+                b.Property<Guid>("PilotId")
+                    .HasColumnType("RAW(16)");
+
+                b.Property<DateTime>("ScheduledFor")
+                    .HasColumnType("TIMESTAMP");
+
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
+
+                b.HasKey("Id");
+
+                b.HasIndex("PilotId");
+
+                b.ToTable("TrainingSessions");
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.User", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
+
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
+
+                b.Property<string>("PasswordHash")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
+
+                b.Property<int>("Role")
+                    .HasColumnType("NUMBER(10)");
+
+                b.Property<string>("Username")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("NVARCHAR2(100)");
+
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
+
+                b.HasKey("Id");
+
+                b.ToTable("Users");
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.WorkOrder", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("RAW(16)");
+
+                b.Property<Guid>("AircraftId")
+                    .HasColumnType("RAW(16)");
+
+                b.Property<int>("Priority")
+                    .HasColumnType("NUMBER(10)");
+
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TIMESTAMP");
+
+                b.Property<int>("Status")
+                    .HasColumnType("NUMBER(10)");
+
+                b.Property<DateTime?>("UpdatedAt")
+                    .HasColumnType("TIMESTAMP");
+
+                b.HasKey("Id");
+
+                b.HasIndex("AircraftId");
+
+                b.ToTable("WorkOrders");
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.AuditLog", b =>
+            {
+                b.HasOne("Sastt.Domain.Entities.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.Defect", b =>
+            {
+                b.HasOne("Sastt.Domain.Entities.Aircraft", null)
+                    .WithMany("Defects")
+                    .HasForeignKey("AircraftId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.PilotCurrency", b =>
+            {
+                b.HasOne("Sastt.Domain.Entities.Pilot", null)
+                    .WithMany()
+                    .HasForeignKey("PilotId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.Task", b =>
+            {
+                b.HasOne("Sastt.Domain.Entities.WorkOrder", null)
+                    .WithMany("Tasks")
+                    .HasForeignKey("WorkOrderId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.TrainingSession", b =>
+            {
+                b.HasOne("Sastt.Domain.Entities.Pilot", null)
+                    .WithMany("TrainingSessions")
+                    .HasForeignKey("PilotId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.WorkOrder", b =>
+            {
+                b.HasOne("Sastt.Domain.Entities.Aircraft", null)
+                    .WithMany()
+                    .HasForeignKey("AircraftId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.Aircraft", b => { b.Navigation("Defects"); });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.Pilot", b => { b.Navigation("TrainingSessions"); });
+
+            modelBuilder.Entity("Sastt.Domain.Entities.WorkOrder", b => { b.Navigation("Tasks"); });
         }
     }
 }

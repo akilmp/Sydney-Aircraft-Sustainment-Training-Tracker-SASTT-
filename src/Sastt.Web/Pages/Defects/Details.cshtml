@@ -1,0 +1,20 @@
+@page "{id:guid}"
+@model Sastt.Web.Pages.Defects.DetailsModel
+@{
+    ViewData["Title"] = "Defect Details";
+}
+
+<h1>Defect Details</h1>
+@if (Model.Item is not null)
+{
+    <dl>
+        <dt>Description</dt><dd>@Model.Item.Description</dd>
+        <dt>Priority</dt><dd>@Model.Item.Priority</dd>
+        <dt>Resolved</dt><dd>@Model.Item.IsResolved</dd>
+        <dt>Aircraft</dt><dd>@Model.Item.AircraftId</dd>
+    </dl>
+}
+else
+{
+    <p>Defect not found.</p>
+}

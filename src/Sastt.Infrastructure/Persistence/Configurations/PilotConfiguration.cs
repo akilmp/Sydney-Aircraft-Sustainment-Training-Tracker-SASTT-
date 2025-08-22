@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sastt.Domain;
+using Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence.Configurations;
 
@@ -13,7 +13,7 @@ public class PilotConfiguration : IEntityTypeConfiguration<Pilot>
         builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
 
         builder.HasMany(p => p.TrainingSessions)
-            .WithOne(t => t.Pilot)
-            .HasForeignKey(t => t.PilotId);
+               .WithOne()
+               .HasForeignKey(ts => ts.PilotId);
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sastt.Domain;
+using Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence.Configurations;
 
@@ -11,11 +11,10 @@ public class AircraftConfiguration : IEntityTypeConfiguration<Aircraft>
         builder.ToTable("Aircraft");
         builder.HasKey(a => a.Id);
         builder.Property(a => a.TailNumber).IsRequired().HasMaxLength(20);
-        builder.Property(a => a.Type).HasMaxLength(50);
-        builder.Property(a => a.Base).HasMaxLength(10);
+        builder.Property(a => a.Model).IsRequired().HasMaxLength(100);
 
-        builder.HasMany(a => a.WorkOrders)
-            .WithOne(w => w.Aircraft)
-            .HasForeignKey(w => w.AircraftId);
+        builder.HasMany(a => a.Defects)
+               .WithOne()
+               .HasForeignKey(d => d.AircraftId);
     }
 }
