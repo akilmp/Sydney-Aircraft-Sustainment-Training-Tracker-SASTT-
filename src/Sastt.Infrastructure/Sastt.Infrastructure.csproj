@@ -14,5 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="../Sastt.Application/Sastt.Application.csproj" />
     <ProjectReference Include="../Sastt.Domain/Sastt.Domain.csproj" />
+    <ProjectReference Include="../Sastt.Application/Sastt.Application.csproj" />
+
   </ItemGroup>
 </Project>
