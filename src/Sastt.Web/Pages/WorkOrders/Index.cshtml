@@ -1,0 +1,28 @@
+@page
+@model Sastt.Web.Pages.WorkOrders.IndexModel
+@{
+    ViewData["Title"] = "Work Orders";
+}
+
+<h1>Work Orders</h1>
+<input id="filter" type="text" placeholder="Filter work orders" class="form-control" />
+<table id="items" class="table">
+    <thead><tr><th>Id</th><th>Status</th><th>Priority</th></tr></thead>
+    <tbody>
+@foreach (var wo in Model.Items)
+{
+    <tr>
+        <td><a asp-page="Details" asp-route-id="@wo.Id">@wo.Id</a></td>
+        <td>@wo.Status</td>
+        <td>@wo.Priority</td>
+    </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script type="module">
+        import { attachFilter } from '/js/filterWidget.js';
+        attachFilter('filter','items');
+    </script>
+}

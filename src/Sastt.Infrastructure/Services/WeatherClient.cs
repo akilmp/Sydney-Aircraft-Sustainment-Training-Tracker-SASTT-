@@ -20,21 +20,29 @@ public class WeatherClient : IWeatherClient
 
     public async Task<WeatherSnapshot> GetWeatherAsync(string baseCode, CancellationToken cancellationToken = default)
     {
-        var url = $"https://api.open-meteo.com/v1/forecast?latitude=0&longitude=0&current_weather=true&apikey={_apiKey}";
-        var result = await _httpClient.GetFromJsonAsync<OpenMeteoResponse>(url, cancellationToken);
-        var temp = result?.CurrentWeather?.Temperature ?? 0m;
-        var cond = result?.CurrentWeather?.WeatherCode?.ToString() ?? "Unknown";
+        // WeatherAPI endpoint (https://www.weatherapi.com/)
+        var url = $"https://api.weatherapi.com/v1/current.json?key={_apiKey}&q={baseCode}&aqi=no";
+        var result = await _httpClient.GetFromJsonAsync<WeatherApiResponse>(url, cancellationToken);
+
+        var temp = result?.Current?.TempC ?? 0m;
+        var cond = result?.Current?.Condition?.Text ?? "Unknown";
+
         return new WeatherSnapshot(baseCode, temp, cond, DateTime.UtcNow);
     }
 
-    private sealed class OpenMeteoResponse
+    private sealed class WeatherApiResponse
     {
-        public CurrentWeatherInfo? CurrentWeather { get; set; }
+        public CurrentWeather? Current { get; set; }
     }
 
-    private sealed class CurrentWeatherInfo
+    private sealed class CurrentWeather
     {
-        public decimal Temperature { get; set; }
-        public int WeatherCode { get; set; }
+        public decimal TempC { get; set; }
+        public Condition? Condition { get; set; }
+    }
+
+    private sealed class Condition
+    {
+        public string? Text { get; set; }
     }
 }

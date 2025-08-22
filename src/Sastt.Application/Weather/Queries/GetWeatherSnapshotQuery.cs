@@ -25,7 +25,11 @@ public class GetWeatherSnapshotQuery
         }
 
         snapshot = await _client.GetWeatherAsync(baseCode, cancellationToken);
-        _cache.Set(cacheKey, snapshot, CacheDuration);
+        var options = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = CacheDuration
+        };
+        _cache.Set(cacheKey, snapshot, options);
         return snapshot;
     }
 }

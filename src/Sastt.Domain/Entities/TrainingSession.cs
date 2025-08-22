@@ -13,7 +13,7 @@ public class TrainingSession : Base
         if (!Completed)
         {
             Completed = true;
-            DomainEvents.Add(new TrainingSessionCompletedEvent(Id, PilotId));
+            AddDomainEvent(new TrainingSessionCompletedEvent(Id, PilotId));
         }
     }
 }

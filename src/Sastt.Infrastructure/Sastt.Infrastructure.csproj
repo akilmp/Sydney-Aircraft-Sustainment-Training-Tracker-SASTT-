@@ -4,10 +4,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.21.35" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.130" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="../Sastt.Application/Sastt.Application.csproj" />
     <ProjectReference Include="../Sastt.Domain/Sastt.Domain.csproj" />
     <ProjectReference Include="../Sastt.Application/Sastt.Application.csproj" />
+
   </ItemGroup>
 </Project>
