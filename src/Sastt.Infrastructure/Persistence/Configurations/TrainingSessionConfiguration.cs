@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sastt.Domain;
+using Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence.Configurations;
 
@@ -10,10 +10,7 @@ public class TrainingSessionConfiguration : IEntityTypeConfiguration<TrainingSes
     {
         builder.ToTable("TrainingSessions");
         builder.HasKey(t => t.Id);
-        builder.Property(t => t.Date).IsRequired();
-
-        builder.HasOne(t => t.Pilot)
-            .WithMany(p => p.TrainingSessions)
-            .HasForeignKey(t => t.PilotId);
+        builder.Property(t => t.ScheduledFor).IsRequired();
+        builder.Property(t => t.Completed).IsRequired();
     }
 }
