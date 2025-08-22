@@ -3,8 +3,12 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../Sastt.Infrastructure/Sastt.Infrastructure.csproj" />
     <ProjectReference Include="../Sastt.Domain/Sastt.Domain.csproj" />
+    <ProjectReference Include="../Sastt.Application/Sastt.Application.csproj" />
 
   </ItemGroup>
 </Project>
