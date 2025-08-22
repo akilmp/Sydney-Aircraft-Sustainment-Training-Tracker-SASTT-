@@ -1,0 +1,18 @@
+@page "{id:guid}"
+@model Sastt.Web.Pages.Aircraft.DetailsModel
+@{
+    ViewData["Title"] = "Aircraft Details";
+}
+
+<h1>Aircraft Details</h1>
+@if (Model.Item is not null)
+{
+    <dl>
+        <dt>Tail Number</dt><dd>@Model.Item.TailNumber</dd>
+        <dt>Model</dt><dd>@Model.Item.Model</dd>
+    </dl>
+}
+else
+{
+    <p>Aircraft not found.</p>
+}

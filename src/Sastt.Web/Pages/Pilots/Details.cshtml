@@ -1,0 +1,18 @@
+@page "{id:guid}"
+@model Sastt.Web.Pages.Pilots.DetailsModel
+@{
+    ViewData["Title"] = "Pilot Details";
+}
+
+<h1>Pilot Details</h1>
+@if (Model.Item is not null)
+{
+    <dl>
+        <dt>Name</dt><dd>@Model.Item.Name</dd>
+        <dt>Training Sessions</dt><dd>@Model.Item.TrainingSessions.Count</dd>
+    </dl>
+}
+else
+{
+    <p>Pilot not found.</p>
+}
