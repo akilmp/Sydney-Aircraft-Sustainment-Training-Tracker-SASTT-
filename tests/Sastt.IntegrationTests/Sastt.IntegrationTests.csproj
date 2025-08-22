@@ -5,11 +5,13 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\\..\\src\\Sastt.Domain\\Sastt.Domain.csproj" />
+    <ProjectReference Include="..\\..\\src\\Sastt.Web\\Sastt.Web.csproj" />
     <PackageReference Include="xunit" Version="2.5.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0" />
     <PackageReference Include="Testcontainers" Version="3.9.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.130" />
     <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
 
   </ItemGroup>
 </Project>

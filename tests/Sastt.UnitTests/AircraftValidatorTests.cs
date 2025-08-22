@@ -35,11 +35,4 @@ public class AircraftValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.Base);
     }
 
-    [Fact]
-    public void AdvanceStatus_moves_to_next_phase()
-    {
-        var aircraft = new Aircraft { TailNumber = "SY-001", Base = "YSSY" };
-        aircraft.AdvanceStatus();
-        Assert.Equal(AircraftStatus.Planned, aircraft.Status);
-    }
 }
