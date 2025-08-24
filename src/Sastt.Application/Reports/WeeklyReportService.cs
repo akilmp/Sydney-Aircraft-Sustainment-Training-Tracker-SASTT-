@@ -46,14 +46,14 @@ public class WeeklyReportService : IWeeklyReportService
         var cutoff = DateTime.Today.AddDays(-7);
         var sessions = await _context.TrainingSessions
             .AsNoTracking()
-            .Where(s => s.Date >= cutoff)
+            .Where(s => s.ScheduledFor >= cutoff)
             .ToListAsync(cancellationToken);
 
         var sb = new StringBuilder();
-        sb.AppendLine("SessionId,PilotId,Date,Hours");
+        sb.AppendLine("SessionId,PilotId,ScheduledFor,Completed");
         foreach (var s in sessions)
         {
-            sb.AppendLine($"{s.Id},{s.PilotId},{s.Date:O},{s.Hours}");
+            sb.AppendLine($"{s.Id},{s.PilotId},{s.ScheduledFor:O},{s.Completed}");
         }
 
         return Encoding.UTF8.GetBytes(sb.ToString());
