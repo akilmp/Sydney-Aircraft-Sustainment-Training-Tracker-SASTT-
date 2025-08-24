@@ -1,13 +1,15 @@
+using CorrelationId;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sastt.Application;
 using Sastt.Application.Weather;
 using Sastt.Application.Weather.Queries;
 using Sastt.Infrastructure.Identity;
 using Sastt.Infrastructure.Persistence;
+
 using Sastt.Infrastructure.Services;
 using Serilog;
 using Serilog.Formatting.Json;
-using CorrelationId;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,6 @@ builder.Host.UseSerilog((context, services, configuration) =>
         .Enrich.WithCorrelationId()
         .WriteTo.Console(new JsonFormatter());
 });
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
@@ -45,9 +46,9 @@ using (var scope = app.Services.CreateScope())
 app.UseCorrelationId();
 app.UseSerilogRequestLogging();
 
-
 app.MapRazorPages();
 
 app.Run();
 
 public partial class Program { }
+
