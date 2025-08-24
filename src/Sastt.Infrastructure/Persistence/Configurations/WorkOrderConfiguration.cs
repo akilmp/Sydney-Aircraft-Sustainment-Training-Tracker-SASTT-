@@ -10,6 +10,7 @@ public class WorkOrderConfiguration : IEntityTypeConfiguration<WorkOrder>
     {
         builder.ToTable("WorkOrders");
         builder.HasKey(w => w.Id);
+
         builder.Property(w => w.Status).HasConversion<int>();
 
         builder.HasMany(w => w.Tasks)
