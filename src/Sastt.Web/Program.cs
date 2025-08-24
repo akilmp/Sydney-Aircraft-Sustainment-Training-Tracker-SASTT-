@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Sastt.Application;
 using Sastt.Application.Weather;
 using Sastt.Application.Weather.Queries;
-using Sastt.Application;
 using Sastt.Application.Reports;
-
+using Sastt.Infrastructure.Identity;
+using Sastt.Infrastructure.Persistence;
+using Sastt.Infrastructure.SeedData;
 using Sastt.Infrastructure.Services;
 using Serilog;
 using Serilog.Formatting.Json;
-using CorrelationId;
 using Oracle.ManagedDataAccess.Client;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Net.Http;
@@ -75,6 +75,8 @@ builder.Services.AddDbContext<SasttDbContext>(options =>
     options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly(typeof(SasttDbContext).Assembly.FullName)));
 
+builder.Services.AddApplication();
+
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
 
 var app = builder.Build();
@@ -83,6 +85,10 @@ using (var scope = app.Services.CreateScope())
 {
     var initializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
     await initializer.SeedAsync();
+
+    var context = scope.ServiceProvider.GetRequiredService<SasttDbContext>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    await DataSeeder.SeedAsync(context, userManager, defaultBase);
 }
 
 app.UseCorrelationId();
