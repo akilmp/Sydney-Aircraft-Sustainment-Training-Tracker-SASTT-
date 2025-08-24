@@ -6,8 +6,9 @@ if command -v dotnet >/dev/null 2>&1; then
   echo "Applying database migrations..."
   dotnet ef database update
 
-  echo "Seeding database..."
-  dotnet run -- --seed
+  BASE=${APP__DEFAULTBASE:-YSSY}
+  echo "Seeding database for ${BASE}..."
+  dotnet run -- --seed --base ${BASE}
 else
   echo "dotnet command not found" >&2
   exit 1
