@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Sastt.Application.Common.Interfaces;
 using Sastt.Domain;
-
+using Entities = Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence;
 
@@ -13,15 +13,12 @@ public class SasttDbContext : DbContext, IApplicationDbContext
     }
 
     public DbSet<Aircraft> Aircraft => Set<Aircraft>();
-    public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
-    public DbSet<WorkOrderTask> WorkOrderTasks => Set<WorkOrderTask>();
-    public DbSet<Defect> Defects => Set<Defect>();
+    public DbSet<Entities.WorkOrder> WorkOrders => Set<Entities.WorkOrder>();
+    public DbSet<Entities.WorkOrderTask> WorkOrderTasks => Set<Entities.WorkOrderTask>();
+    public DbSet<Entities.Defect> Defects => Set<Entities.Defect>();
     public DbSet<Pilot> Pilots => Set<Pilot>();
     public DbSet<PilotCurrency> PilotCurrencies => Set<PilotCurrency>();
     public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
-    public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
-    public DbSet<WorkOrderTask> WorkOrderTasks => Set<WorkOrderTask>();
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

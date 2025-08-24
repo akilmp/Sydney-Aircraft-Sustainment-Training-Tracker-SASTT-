@@ -24,11 +24,15 @@ public class WeeklyReportService : IWeeklyReportService
             .ToListAsync(cancellationToken);
 
         var sb = new StringBuilder();
-        sb.AppendLine("WorkOrderId,Title,AircraftId");
+        sb.AppendLine("WorkOrderId,Title,AircraftId,Priority,PlannedStart,PlannedEnd,ActualStart,ActualEnd,Status");
         foreach (var wo in workOrders)
         {
             var title = wo.Title.Replace("\"", "\"\"");
-            sb.AppendLine($"{wo.Id},\"{title}\",{wo.AircraftId}");
+            var plannedStart = wo.PlannedStart?.ToString("O") ?? string.Empty;
+            var plannedEnd = wo.PlannedEnd?.ToString("O") ?? string.Empty;
+            var actualStart = wo.ActualStart?.ToString("O") ?? string.Empty;
+            var actualEnd = wo.ActualEnd?.ToString("O") ?? string.Empty;
+            sb.AppendLine($"{wo.Id},\"{title}\",{wo.AircraftId},{wo.Priority},{plannedStart},{plannedEnd},{actualStart},{actualEnd},{wo.Status}");
         }
 
         return Encoding.UTF8.GetBytes(sb.ToString());
@@ -46,14 +50,15 @@ public class WeeklyReportService : IWeeklyReportService
         var cutoff = DateTime.Today.AddDays(-7);
         var sessions = await _context.TrainingSessions
             .AsNoTracking()
-            .Where(s => s.Date >= cutoff)
+            .Where(s => s.Start >= cutoff)
             .ToListAsync(cancellationToken);
 
         var sb = new StringBuilder();
-        sb.AppendLine("SessionId,PilotId,Date,Hours");
+        sb.AppendLine("SessionId,PilotId,Start,End,Result,Notes");
         foreach (var s in sessions)
         {
-            sb.AppendLine($"{s.Id},{s.PilotId},{s.Date:O},{s.Hours}");
+            var notes = s.Notes?.Replace("\"", "\"\"") ?? string.Empty;
+            sb.AppendLine($"{s.Id},{s.PilotId},{s.Start:O},{s.End:O},{s.Result},\"{notes}\"");
         }
 
         return Encoding.UTF8.GetBytes(sb.ToString());

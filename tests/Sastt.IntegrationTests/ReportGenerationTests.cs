@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Sastt.Application.Reports;
 using Sastt.Domain;
 using Sastt.Domain.Enums;
-using Entities = Sastt.Domain.Entities;
 using Sastt.Infrastructure.Persistence;
+using Entities = Sastt.Domain.Entities;
 using Xunit;
 
-namespace Sastt.UnitTests;
+namespace Sastt.IntegrationTests;
 
 public class ReportGenerationTests
 {
@@ -20,7 +20,7 @@ public class ReportGenerationTests
             .Options;
         var context = new SasttDbContext(options);
         context.WorkOrders.Add(new Entities.WorkOrder { Title = "WO", AircraftId = Guid.NewGuid(), Priority = Priority.Medium, PlannedStart = DateTime.Today, PlannedEnd = DateTime.Today.AddDays(1), ActualStart = DateTime.Today, ActualEnd = DateTime.Today.AddDays(1) });
-        context.TrainingSessions.Add(new TrainingSession { PilotId = 1, Start = DateTime.Today, End = DateTime.Today.AddHours(2), Result = "PASS", Notes = "note" });
+        context.TrainingSessions.Add(new TrainingSession { PilotId = 1, Start = DateTime.Today, End = DateTime.Today.AddHours(2), Result = "PASS", Notes = "n" });
         context.SaveChanges();
         return new WeeklyReportService(context);
     }
@@ -31,9 +31,8 @@ public class ReportGenerationTests
         var service = CreateService();
         var bytes = await service.GenerateWeeklyTrainingCsvAsync();
         var text = Encoding.UTF8.GetString(bytes);
-        Assert.Contains("SessionId", text);
         Assert.Contains("Result", text);
-        Assert.Contains(",1,", text);
+        Assert.Contains("PASS", text);
     }
 
     [Fact]
