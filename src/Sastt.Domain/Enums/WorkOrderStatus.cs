@@ -4,6 +4,8 @@ public enum WorkOrderStatus
 {
     Open,
     InProgress,
+    QaReview,
+    Deferred,
     Completed,
     Cancelled
 }
