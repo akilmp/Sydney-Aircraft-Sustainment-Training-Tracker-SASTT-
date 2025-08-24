@@ -5,7 +5,9 @@ public enum WorkOrderStatus
     Draft,
     Planned,
     InProgress,
-    QAReview,
-    Closed,
-    Deferred
+    QaReview,
+    Deferred,
+    Completed,
+    Cancelled
+
 }
