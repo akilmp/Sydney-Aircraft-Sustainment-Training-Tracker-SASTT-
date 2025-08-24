@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Sastt.Domain;
 using Sastt.Domain.Entities;
+using WorkOrderTask = Sastt.Domain.WorkOrderTask;
 
 namespace Sastt.Application.Common.Interfaces;
 
