@@ -2,8 +2,10 @@ namespace Sastt.Domain.Enums;
 
 public enum WorkOrderStatus
 {
-    Open,
+    Draft,
+    Planned,
     InProgress,
-    Completed,
-    Cancelled
+    QAReview,
+    Closed,
+    Deferred
 }
