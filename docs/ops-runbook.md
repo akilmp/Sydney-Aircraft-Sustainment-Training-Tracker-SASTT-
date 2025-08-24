@@ -1,24 +1,25 @@
 # Operations Runbook
 
-This runbook outlines common operational tasks for SASTT.
+## Health Checks
 
-## Setup
-1. Copy `.env.example` to `.env` and supply real values.
-2. Ensure Docker and docker-compose are installed.
-3. Start services with:
-   ```
-   docker-compose up --build
-   ```
+The application exposes health information at `/health`.
 
-## Routine Tasks
-- **Database migrations**: handled automatically on startup. For manual runs:
-  ```
-  dotnet ef database update
-  ```
-- **Logs**: application logs are written to standard output and collected by the host system.
-- **Backup**: export Oracle data using native tools or snapshots.
+### Oracle DB
+- **Name:** `oracle-db`
+- Opens a connection using `ORACLE__CONNECTIONSTRING`.
+- Reports unhealthy if the database cannot be reached.
 
-## Incident Response
-1. Check container logs for errors.
-2. If the database is unavailable, restart the `oracle` service.
-3. Escalate unresolved issues to the platform team.
+### Weather API
+- **Name:** `weather-api`
+- Performs an HTTP request to WeatherAPI using `WEATHER__APIKEY` and the default base code from `APP__DEFAULTBASE`.
+- Fails when the API responds with a non-success status.
+
+## Verification
+To check the status locally:
+
+```bash
+curl http://localhost:5000/health
+```
+
+Adjust the port if the web app listens on a different one.
+
