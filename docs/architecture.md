@@ -1,20 +1,16 @@
 # System Architecture
 
-The Sydney Aircraft Sustainment Training Tracker (SASTT) is built as an ASP.NET Core web API.
-It integrates an Oracle database for persistence and an external weather service for planning
-flight-related training. The application is containerized and orchestrated with Docker Compose
-for local development.
+SASTT is an ASP.NET Core web API built with a clean architecture that models aircraft inventory, maintenance workflows, and pilot training. Data is stored in an Oracle database and weather data is retrieved from an external service to help plan operations.
 
-Components:
-- **API Service**: Exposes training management endpoints and coordinates data access.
-- **Oracle Database**: Stores trainees, sessions, and attendance records.
-- **Weather Provider**: Third-party REST API used to retrieve forecast data.
-- **Background Jobs**: Periodically synchronize weather data and clean up expired sessions.
+## Components
+- **API Service** – exposes endpoints for aircraft, work orders, tasks, defects, pilots, and training sessions.
+- **Oracle Database** – persists domain entities and audit logs via Entity Framework Core.
+- **Weather Provider** – third‑party REST API queried for base forecasts.
+- **Background Jobs** – synchronize weather snapshots and perform routine cleanup.
 
-Data Flow:
-1. Client requests are processed by the API service.
-2. The service queries or updates the Oracle database.
-3. Weather information is fetched when needed for scheduling or debriefing sessions.
+## Data Flow
+1. Clients send requests to the API service.
+2. The service reads or writes data through EF Core to Oracle.
+3. Weather information is fetched on demand when planning maintenance or training.
 
-Deployment assumes the services run within a secure network and communicate via environment
-variables configured in `.env`.
+Services are containerized with Docker Compose and configured through environment variables in `.env`.

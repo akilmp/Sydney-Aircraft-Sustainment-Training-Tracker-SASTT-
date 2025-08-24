@@ -16,9 +16,25 @@
 **Quick Start**
 
 1. `docker compose up -d` (spins up Oracle XE and the web app)
-2. Copy `.env.example` to `.env` and set `ORACLE__CONNECTIONSTRING`, `WEATHER__APIKEY`, and `APP__DEFAULTBASE`.
+2. Copy `.env.example` to `.env` and set `ORACLE__CONNECTIONSTRING`, `WEATHER__APIKEY`, and `APP__DEFAULTBASE` (see [Configuration](#configuration)).
 3. The web container entrypoint runs `dotnet ef database update` and then `dotnet run -- --seed --base $APP__DEFAULTBASE`.
 4. Login as `admin@sastt.local` / `Passw0rd!` (dev)
+
+### Configuration
+
+Create a `.env` file with the following values:
+
+```
+ORACLE__CONNECTIONSTRING=User Id=USER;Password=PASSWORD;Data Source=HOST:PORT/SERVICE;
+WEATHER__APIKEY=YOUR_WEATHER_API_KEY
+APP__DEFAULTBASE=YSSY
+```
+
+### Documentation
+
+- [Architecture overview](docs/architecture.md)
+- [API specification](docs/api-spec.md)
+- [Database schema](docs/db-schema.sql)
 
 To seed manually outside of Docker:
 
