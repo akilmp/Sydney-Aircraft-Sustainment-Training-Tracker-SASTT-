@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using Sastt.Application.Common.Interfaces;
 using Sastt.Domain;
 using Sastt.Domain.Entities;
+using System.Threading;
 
 
 namespace Sastt.Infrastructure.Persistence;
 
-public class SasttDbContext : DbContext
+public class SasttDbContext : DbContext, IApplicationDbContext
 {
     public SasttDbContext(DbContextOptions<SasttDbContext> options)
         : base(options)
@@ -13,13 +15,11 @@ public class SasttDbContext : DbContext
     }
 
     public DbSet<Aircraft> Aircraft => Set<Aircraft>();
-    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
+    public DbSet<WorkOrderTask> WorkOrderTasks => Set<WorkOrderTask>();
     public DbSet<Defect> Defects => Set<Defect>();
     public DbSet<Pilot> Pilots => Set<Pilot>();
-    public DbSet<PilotCurrency> PilotCurrencies => Set<PilotCurrency>();
-    public DbSet<TaskEntity> Tasks => Set<TaskEntity>();
     public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
-    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,4 +27,7 @@ public class SasttDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SasttDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
+
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        => base.SaveChangesAsync(cancellationToken);
 }

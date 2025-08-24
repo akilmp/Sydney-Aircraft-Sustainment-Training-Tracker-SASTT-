@@ -3,7 +3,7 @@ using Sastt.Application;
 using Sastt.Application.Weather;
 using Sastt.Application.Weather.Queries;
 using Sastt.Application;
-
+using Sastt.Application.Reports;
 using Sastt.Infrastructure.Services;
 using Serilog;
 using Serilog.Formatting.Json;
@@ -26,6 +26,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<IWeatherClient, WeatherClient>();
 builder.Services.AddScoped<GetWeatherSnapshotQuery>();
 builder.Services.AddScoped<IAuditLogger, AuditLogger>();
+builder.Services.AddScoped<IWeeklyReportService, WeeklyReportService>();
 builder.Services.AddCorrelationId();
 
 var app = builder.Build();
@@ -35,6 +36,7 @@ app.UseSerilogRequestLogging();
 
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
 
