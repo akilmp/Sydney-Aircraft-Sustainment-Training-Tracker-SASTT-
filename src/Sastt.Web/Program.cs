@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Sastt.Application;
 using Sastt.Application.Weather;
 using Sastt.Application.Weather.Queries;
-using Sastt.Application;
-
+using Sastt.Infrastructure.Identity;
+using Sastt.Infrastructure.Persistence;
 using Sastt.Infrastructure.Services;
 using Serilog;
 using Serilog.Formatting.Json;
@@ -28,7 +28,19 @@ builder.Services.AddScoped<GetWeatherSnapshotQuery>();
 builder.Services.AddScoped<IAuditLogger, AuditLogger>();
 builder.Services.AddCorrelationId();
 
+builder.Services.AddDbContext<SasttDbContext>(options =>
+    options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly(typeof(SasttDbContext).Assembly.FullName)));
+
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
+    await initializer.SeedAsync();
+}
 
 app.UseCorrelationId();
 app.UseSerilogRequestLogging();
