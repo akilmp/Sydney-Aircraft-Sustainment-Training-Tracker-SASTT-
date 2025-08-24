@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Sastt.Domain;
+using Sastt.Domain.Entities;
 using Sastt.Infrastructure.Persistence;
 
 namespace Sastt.Web.Pages.WorkOrders;

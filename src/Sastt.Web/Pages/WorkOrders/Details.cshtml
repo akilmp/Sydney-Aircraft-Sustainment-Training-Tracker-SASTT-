@@ -1,4 +1,4 @@
-@page "{id:int}"
+@page "{id:guid}"
 @model Sastt.Web.Pages.WorkOrders.DetailsModel
 @{
     ViewData["Title"] = "Work Order Details";
@@ -12,15 +12,6 @@
         <dt>Aircraft</dt><dd>@Model.Item.AircraftId</dd>
         <dt>Status</dt><dd>@Model.Item.Status</dd>
     </dl>
-
-    @foreach (var status in Model.AllowedTransitions)
-    {
-        <form method="post" asp-page-handler="Transition">
-            <input type="hidden" name="id" value="@Model.Item.Id" />
-            <input type="hidden" name="status" value="@status" />
-            <button type="submit">@status</button>
-        </form>
-    }
 }
 else
 {
