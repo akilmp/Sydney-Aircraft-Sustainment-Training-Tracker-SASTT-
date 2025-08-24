@@ -1,3 +1,5 @@
+using MediatR;
+
 namespace Sastt.Domain.Events;
 
-public record TrainingSessionCompletedEvent(Guid TrainingSessionId, Guid PilotId) : IDomainEvent;
+public record TrainingSessionCompletedEvent(Guid TrainingSessionId, Guid PilotId) : IDomainEvent, INotification;
