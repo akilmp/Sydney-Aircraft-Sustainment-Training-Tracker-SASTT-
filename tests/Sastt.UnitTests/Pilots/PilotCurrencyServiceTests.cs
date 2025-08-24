@@ -1,8 +1,10 @@
+using System;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Sastt.Application.Common.Interfaces;
 using Sastt.Application.Pilots;
-using Sastt.Domain;
 using Sastt.Domain.Entities;
+using TaskEntity = Sastt.Domain.Entities.Task;
 using Xunit;
 
 namespace Sastt.UnitTests.Pilots;
@@ -60,7 +62,7 @@ public class PilotCurrencyServiceTests
 
         public DbSet<Aircraft> Aircraft => Set<Aircraft>();
         public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
-        public DbSet<WorkOrderTask> WorkOrderTasks => Set<WorkOrderTask>();
+        public DbSet<TaskEntity> Tasks => Set<TaskEntity>();
         public DbSet<Defect> Defects => Set<Defect>();
         public DbSet<Pilot> Pilots => Set<Pilot>();
         public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();

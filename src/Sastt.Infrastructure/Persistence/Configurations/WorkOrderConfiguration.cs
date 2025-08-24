@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sastt.Domain;
+using Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence.Configurations;
 
@@ -14,11 +14,7 @@ public class WorkOrderConfiguration : IEntityTypeConfiguration<WorkOrder>
         builder.Property(w => w.Status).HasConversion<int>();
 
         builder.HasMany(w => w.Tasks)
-               .WithOne(t => t.WorkOrder)
+               .WithOne()
                .HasForeignKey(t => t.WorkOrderId);
-
-        builder.HasOne(w => w.Aircraft)
-               .WithMany()
-               .HasForeignKey(w => w.AircraftId);
     }
 }

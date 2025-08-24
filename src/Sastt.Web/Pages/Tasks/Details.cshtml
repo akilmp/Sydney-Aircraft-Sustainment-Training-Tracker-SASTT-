@@ -1,4 +1,4 @@
-@page "{id:int}"
+@page "{id:guid}"
 @model Sastt.Web.Pages.Tasks.DetailsModel
 @{
     ViewData["Title"] = "Task Details";
@@ -9,7 +9,7 @@
 {
     <dl>
         <dt>Description</dt><dd>@Model.Item.Description</dd>
-        <dt>Completed</dt><dd>@Model.Item.IsCompleted</dd>
+        <dt>Status</dt><dd>@Model.Item.Status</dd>
         <dt>Work Order</dt><dd>@Model.Item.WorkOrderId</dd>
     </dl>
 }
