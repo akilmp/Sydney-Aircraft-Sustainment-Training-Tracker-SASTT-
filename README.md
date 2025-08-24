@@ -17,8 +17,16 @@
 
 1. `docker compose up -d` (spins up Oracle XE and the web app)
 2. Copy `.env.example` to `.env` and set `ORACLE__CONNECTIONSTRING`, `WEATHER__APIKEY`, and `APP__DEFAULTBASE`.
-3. The web container entrypoint runs `dotnet ef database update` and `--seed` automatically.
+3. The web container entrypoint runs `dotnet ef database update` and then `dotnet run -- --seed --base $APP__DEFAULTBASE`.
 4. Login as `admin@sastt.local` / `Passw0rd!` (dev)
+
+To seed manually outside of Docker:
+
+```bash
+dotnet run --project src/Sastt.Web -- --seed --base YSSY
+```
+
+Replace `YSSY` with `YWLM` to load Williamtown data.
 
 ---
 

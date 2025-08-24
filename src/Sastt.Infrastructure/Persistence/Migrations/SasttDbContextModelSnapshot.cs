@@ -254,15 +254,31 @@ namespace Sastt.Infrastructure.Persistence.Migrations
 
                 b.Property<Guid>("AircraftId")
                     .HasColumnType("RAW(16)");
+                b.Property<DateTime?>("ActualEnd")
+                    .HasColumnType("TIMESTAMP");
 
-                b.Property<int>("Priority")
-                    .HasColumnType("NUMBER(10)");
+                b.Property<DateTime?>("ActualStart")
+                    .HasColumnType("TIMESTAMP");
 
                 b.Property<DateTime>("CreatedAt")
                     .HasColumnType("TIMESTAMP");
 
+                b.Property<int>("Priority")
+                    .HasColumnType("NUMBER(10)");
+
+                b.Property<DateTime?>("PlannedEnd")
+                    .HasColumnType("TIMESTAMP");
+
+                b.Property<DateTime?>("PlannedStart")
+                    .HasColumnType("TIMESTAMP");
+
                 b.Property<int>("Status")
                     .HasColumnType("NUMBER(10)");
+
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
 
                 b.Property<DateTime?>("UpdatedAt")
                     .HasColumnType("TIMESTAMP");
