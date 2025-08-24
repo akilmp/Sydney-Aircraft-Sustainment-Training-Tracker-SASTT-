@@ -12,6 +12,8 @@ public class AircraftConfiguration : IEntityTypeConfiguration<Aircraft>
         builder.HasKey(a => a.Id);
         builder.Property(a => a.TailNumber).IsRequired().HasMaxLength(20);
         builder.Property(a => a.Model).IsRequired().HasMaxLength(100);
+        builder.Property(a => a.Base).IsRequired().HasMaxLength(100);
+        builder.Property(a => a.Status).HasConversion<int>();
 
         builder.HasMany(a => a.Defects)
                .WithOne()

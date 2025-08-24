@@ -12,5 +12,6 @@ public class TrainingSessionConfiguration : IEntityTypeConfiguration<TrainingSes
         builder.HasKey(t => t.Id);
         builder.Property(t => t.ScheduledFor).IsRequired();
         builder.Property(t => t.Completed).IsRequired();
+        builder.Property(t => t.Location).IsRequired().HasMaxLength(200);
     }
 }

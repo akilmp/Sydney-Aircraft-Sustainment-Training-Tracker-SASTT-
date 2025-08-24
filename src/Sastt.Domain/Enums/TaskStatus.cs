@@ -5,5 +5,7 @@ public enum TaskStatus
     Pending,
     InProgress,
     Completed,
-    Blocked
+    Blocked,
+    Deferred,
+    Cancelled
 }

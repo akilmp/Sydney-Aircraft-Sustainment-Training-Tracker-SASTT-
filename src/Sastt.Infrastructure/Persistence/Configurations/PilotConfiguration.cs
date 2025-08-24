@@ -11,6 +11,7 @@ public class PilotConfiguration : IEntityTypeConfiguration<Pilot>
         builder.ToTable("Pilots");
         builder.HasKey(p => p.Id);
         builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
+        builder.Property(p => p.Rank).IsRequired().HasMaxLength(100);
 
         builder.HasMany(p => p.TrainingSessions)
                .WithOne()

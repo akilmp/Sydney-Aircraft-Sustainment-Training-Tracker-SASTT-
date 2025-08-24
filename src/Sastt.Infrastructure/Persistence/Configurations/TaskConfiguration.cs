@@ -1,17 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sastt.Domain;
+using Sastt.Domain.Entities;
 
 namespace Sastt.Infrastructure.Persistence.Configurations;
 
-public class WorkOrderTaskConfiguration : IEntityTypeConfiguration<WorkOrderTask>
+public class TaskConfiguration : IEntityTypeConfiguration<Task>
 {
-    public void Configure(EntityTypeBuilder<WorkOrderTask> builder)
+    public void Configure(EntityTypeBuilder<Task> builder)
     {
-        builder.ToTable("WorkOrderTasks");
+        builder.ToTable("Tasks");
         builder.HasKey(t => t.Id);
+        builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
         builder.Property(t => t.Description).IsRequired().HasMaxLength(500);
-        builder.Property(t => t.IsCompleted);
+        builder.Property(t => t.Status).HasConversion<int>();
+        builder.Property(t => t.DueDate);
 
         builder.HasOne(t => t.WorkOrder)
                .WithMany(w => w.Tasks)

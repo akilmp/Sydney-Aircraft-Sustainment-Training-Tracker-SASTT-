@@ -26,6 +26,11 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                 b.Property<DateTime>("CreatedAt")
                     .HasColumnType("TIMESTAMP");
 
+                b.Property<string>("Base")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("NVARCHAR2(100)");
+
                 b.Property<string>("Model")
                     .IsRequired()
                     .HasMaxLength(100)
@@ -35,6 +40,9 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnType("NVARCHAR2(20)");
+
+                b.Property<int>("Status")
+                    .HasColumnType("NUMBER(10)");
 
                 b.Property<DateTime?>("UpdatedAt")
                     .HasColumnType("TIMESTAMP");
@@ -57,6 +65,10 @@ namespace Sastt.Infrastructure.Persistence.Migrations
 
                 b.Property<DateTime>("CreatedAt")
                     .HasColumnType("TIMESTAMP");
+
+                b.Property<string>("Details")
+                    .HasMaxLength(1000)
+                    .HasColumnType("NVARCHAR2(1000)");
 
                 b.Property<DateTime>("Timestamp")
                     .HasColumnType("TIMESTAMP");
@@ -83,6 +95,9 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                 b.Property<Guid>("AircraftId")
                     .HasColumnType("RAW(16)");
 
+                b.Property<Guid>("WorkOrderId")
+                    .HasColumnType("RAW(16)");
+
                 b.Property<DateTime>("CreatedAt")
                     .HasColumnType("TIMESTAMP");
 
@@ -102,6 +117,7 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                 b.HasKey("Id");
 
                 b.HasIndex("AircraftId");
+                b.HasIndex("WorkOrderId");
 
                 b.ToTable("Defects");
             });
@@ -119,6 +135,11 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                     .IsRequired()
                     .HasMaxLength(200)
                     .HasColumnType("NVARCHAR2(200)");
+
+                b.Property<string>("Rank")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("NVARCHAR2(100)");
 
                 b.Property<DateTime?>("UpdatedAt")
                     .HasColumnType("TIMESTAMP");
@@ -140,6 +161,9 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                     .HasColumnType("NVARCHAR2(100)");
 
                 b.Property<DateTime>("ExpirationDate")
+                    .HasColumnType("TIMESTAMP");
+
+                b.Property<DateTime>("AchievedDate")
                     .HasColumnType("TIMESTAMP");
 
                 b.Property<Guid>("PilotId")
@@ -167,6 +191,11 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                 b.Property<DateTime>("CreatedAt")
                     .HasColumnType("TIMESTAMP");
 
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
+
                 b.Property<string>("Description")
                     .IsRequired()
                     .HasMaxLength(500)
@@ -174,6 +203,9 @@ namespace Sastt.Infrastructure.Persistence.Migrations
 
                 b.Property<int>("Status")
                     .HasColumnType("NUMBER(10)");
+
+                b.Property<DateTime?>("DueDate")
+                    .HasColumnType("TIMESTAMP");
 
                 b.Property<Guid>("WorkOrderId")
                     .HasColumnType("RAW(16)");
@@ -206,6 +238,11 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                 b.Property<DateTime>("ScheduledFor")
                     .HasColumnType("TIMESTAMP");
 
+                b.Property<string>("Location")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
+
                 b.Property<DateTime?>("UpdatedAt")
                     .HasColumnType("TIMESTAMP");
 
@@ -232,6 +269,14 @@ namespace Sastt.Infrastructure.Persistence.Migrations
 
                 b.Property<int>("Role")
                     .HasColumnType("NUMBER(10)");
+
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("NVARCHAR2(200)");
+
+                b.Property<bool>("IsActive")
+                    .HasColumnType("NUMBER(1)");
 
                 b.Property<string>("Username")
                     .IsRequired()
@@ -280,6 +325,11 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                     .HasMaxLength(200)
                     .HasColumnType("NVARCHAR2(200)");
 
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(1000)
+                    .HasColumnType("NVARCHAR2(1000)");
+
                 b.Property<DateTime?>("UpdatedAt")
                     .HasColumnType("TIMESTAMP");
 
@@ -304,6 +354,12 @@ namespace Sastt.Infrastructure.Persistence.Migrations
                 b.HasOne("Sastt.Domain.Entities.Aircraft", null)
                     .WithMany("Defects")
                     .HasForeignKey("AircraftId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("Sastt.Domain.Entities.WorkOrder", null)
+                    .WithMany("Defects")
+                    .HasForeignKey("WorkOrderId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
@@ -348,7 +404,7 @@ namespace Sastt.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Sastt.Domain.Entities.Pilot", b => { b.Navigation("TrainingSessions"); });
 
-            modelBuilder.Entity("Sastt.Domain.Entities.WorkOrder", b => { b.Navigation("Tasks"); });
+            modelBuilder.Entity("Sastt.Domain.Entities.WorkOrder", b => { b.Navigation("Defects"); b.Navigation("Tasks"); });
         }
     }
 }

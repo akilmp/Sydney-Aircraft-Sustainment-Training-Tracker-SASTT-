@@ -12,6 +12,7 @@ public class PilotCurrencyConfiguration : IEntityTypeConfiguration<PilotCurrency
         builder.HasKey(pc => pc.Id);
         builder.Property(pc => pc.CurrencyType).IsRequired().HasMaxLength(100);
         builder.Property(pc => pc.ExpirationDate).IsRequired();
+        builder.Property(pc => pc.AchievedDate).IsRequired();
 
         builder.HasOne<Pilot>()
                .WithMany()

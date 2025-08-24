@@ -1,28 +1,28 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Sastt.Application.Common.Interfaces;
-using Sastt.Domain;
+using TaskEntity = Sastt.Domain.Entities.Task;
 
 namespace Sastt.Application.WorkOrderTasks.Queries;
 
-public record GetWorkOrderTaskByIdQuery(int Id) : IRequest<WorkOrderTask?>;
+public record GetTaskByIdQuery(Guid Id) : IRequest<TaskEntity?>;
 
-public class GetWorkOrderTaskByIdQueryHandler : IRequestHandler<GetWorkOrderTaskByIdQuery, WorkOrderTask?>
+public class GetTaskByIdQueryHandler : IRequestHandler<GetTaskByIdQuery, TaskEntity?>
 {
     private readonly IApplicationDbContext _context;
-    public GetWorkOrderTaskByIdQueryHandler(IApplicationDbContext context) => _context = context;
+    public GetTaskByIdQueryHandler(IApplicationDbContext context) => _context = context;
 
-    public async Task<WorkOrderTask?> Handle(GetWorkOrderTaskByIdQuery request, CancellationToken cancellationToken)
-        => await _context.WorkOrderTasks.FindAsync(new object[] { request.Id }, cancellationToken);
+    public async Task<TaskEntity?> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
+        => await _context.Tasks.FindAsync(new object[] { request.Id }, cancellationToken);
 }
 
-public record GetWorkOrderTaskListQuery() : IRequest<List<WorkOrderTask>>;
+public record GetTaskListQuery() : IRequest<List<TaskEntity>>;
 
-public class GetWorkOrderTaskListQueryHandler : IRequestHandler<GetWorkOrderTaskListQuery, List<WorkOrderTask>>
+public class GetTaskListQueryHandler : IRequestHandler<GetTaskListQuery, List<TaskEntity>>
 {
     private readonly IApplicationDbContext _context;
-    public GetWorkOrderTaskListQueryHandler(IApplicationDbContext context) => _context = context;
+    public GetTaskListQueryHandler(IApplicationDbContext context) => _context = context;
 
-    public async Task<List<WorkOrderTask>> Handle(GetWorkOrderTaskListQuery request, CancellationToken cancellationToken)
-        => await _context.WorkOrderTasks.ToListAsync(cancellationToken);
+    public async Task<List<TaskEntity>> Handle(GetTaskListQuery request, CancellationToken cancellationToken)
+        => await _context.Tasks.ToListAsync(cancellationToken);
 }

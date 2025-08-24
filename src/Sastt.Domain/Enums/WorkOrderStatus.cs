@@ -6,6 +6,7 @@ public enum WorkOrderStatus
     Planned,
     InProgress,
     QaReview,
+    DeferralRequested,
     Deferred,
     Completed,
     Cancelled

@@ -12,9 +12,14 @@ public class DefectConfiguration : IEntityTypeConfiguration<Defect>
         builder.HasKey(d => d.Id);
         builder.Property(d => d.Description).HasMaxLength(500);
         builder.Property(d => d.Priority).HasConversion<int>();
+        builder.Property(d => d.WorkOrderId);
 
         builder.HasOne<Aircraft>()
                .WithMany(a => a.Defects)
                .HasForeignKey(d => d.AircraftId);
+
+        builder.HasOne(d => d.WorkOrder)
+               .WithMany(w => w.Defects)
+               .HasForeignKey(d => d.WorkOrderId);
     }
 }

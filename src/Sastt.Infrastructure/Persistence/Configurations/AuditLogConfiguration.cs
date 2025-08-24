@@ -11,8 +11,9 @@ public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
         builder.ToTable("AuditLogs");
         builder.HasKey(a => a.Id);
         builder.Property(a => a.UserId).IsRequired();
-        builder.Property(a => a.Action).IsRequired();
+        builder.Property(a => a.Action).IsRequired().HasMaxLength(200);
         builder.Property(a => a.Timestamp).IsRequired();
+        builder.Property(a => a.Details).HasMaxLength(1000);
     }
 }
 

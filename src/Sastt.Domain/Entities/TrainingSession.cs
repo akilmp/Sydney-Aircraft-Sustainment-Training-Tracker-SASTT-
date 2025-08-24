@@ -7,6 +7,7 @@ public class TrainingSession : Base
     public Guid PilotId { get; set; }
     public DateTime ScheduledFor { get; set; }
     public bool Completed { get; private set; }
+    public string Location { get; set; } = string.Empty;
 
     public void MarkCompleted()
     {

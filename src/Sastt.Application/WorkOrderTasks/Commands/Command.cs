@@ -1,87 +1,98 @@
 using FluentValidation;
 using MediatR;
 using Sastt.Application.Common.Interfaces;
-using Sastt.Domain;
+using Sastt.Domain.Enums;
+using TaskEntity = Sastt.Domain.Entities.Task;
 
 namespace Sastt.Application.WorkOrderTasks.Commands;
 
-public record CreateWorkOrderTaskCommand(int WorkOrderId, string Description) : IRequest<int>;
+public record CreateTaskCommand(Guid WorkOrderId, string Title, string Description, DateTime? DueDate) : IRequest<Guid>;
 
-public class CreateWorkOrderTaskCommandValidator : AbstractValidator<CreateWorkOrderTaskCommand>
+public class CreateTaskCommandValidator : AbstractValidator<CreateTaskCommand>
 {
-    public CreateWorkOrderTaskCommandValidator()
+    public CreateTaskCommandValidator()
     {
-        RuleFor(x => x.WorkOrderId).GreaterThan(0);
+        RuleFor(x => x.WorkOrderId).NotEmpty();
+        RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();
     }
 }
 
-public class CreateWorkOrderTaskCommandHandler : IRequestHandler<CreateWorkOrderTaskCommand, int>
+public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
-    public CreateWorkOrderTaskCommandHandler(IApplicationDbContext context) => _context = context;
+    public CreateTaskCommandHandler(IApplicationDbContext context) => _context = context;
 
-    public async Task<int> Handle(CreateWorkOrderTaskCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
     {
-        var entity = new WorkOrderTask { WorkOrderId = request.WorkOrderId, Description = request.Description };
-        _context.WorkOrderTasks.Add(entity);
+        var entity = new TaskEntity
+        {
+            WorkOrderId = request.WorkOrderId,
+            Title = request.Title,
+            Description = request.Description,
+            DueDate = request.DueDate
+        };
+        _context.Tasks.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
         return entity.Id;
     }
 }
 
-public record UpdateWorkOrderTaskCommand(int Id, string Description, bool IsCompleted) : IRequest;
+public record UpdateTaskCommand(Guid Id, string Title, string Description, TaskStatus Status, DateTime? DueDate) : IRequest;
 
-public class UpdateWorkOrderTaskCommandValidator : AbstractValidator<UpdateWorkOrderTaskCommand>
+public class UpdateTaskCommandValidator : AbstractValidator<UpdateTaskCommand>
 {
-    public UpdateWorkOrderTaskCommandValidator()
+    public UpdateTaskCommandValidator()
     {
-        RuleFor(x => x.Id).GreaterThan(0);
+        RuleFor(x => x.Id).NotEmpty();
+        RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();
     }
 }
 
-public class UpdateWorkOrderTaskCommandHandler : IRequestHandler<UpdateWorkOrderTaskCommand>
+public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand>
 {
     private readonly IApplicationDbContext _context;
-    public UpdateWorkOrderTaskCommandHandler(IApplicationDbContext context) => _context = context;
+    public UpdateTaskCommandHandler(IApplicationDbContext context) => _context = context;
 
-    public async Task Handle(UpdateWorkOrderTaskCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.WorkOrderTasks.FindAsync(new object[] { request.Id }, cancellationToken);
+        var entity = await _context.Tasks.FindAsync(new object[] { request.Id }, cancellationToken);
         if (entity is null)
         {
             throw new KeyNotFoundException($"Task {request.Id} not found");
         }
+        entity.Title = request.Title;
         entity.Description = request.Description;
-        entity.IsCompleted = request.IsCompleted;
+        entity.Status = request.Status;
+        entity.DueDate = request.DueDate;
         await _context.SaveChangesAsync(cancellationToken);
     }
 }
 
-public record DeleteWorkOrderTaskCommand(int Id) : IRequest;
+public record DeleteTaskCommand(Guid Id) : IRequest;
 
-public class DeleteWorkOrderTaskCommandValidator : AbstractValidator<DeleteWorkOrderTaskCommand>
+public class DeleteTaskCommandValidator : AbstractValidator<DeleteTaskCommand>
 {
-    public DeleteWorkOrderTaskCommandValidator()
+    public DeleteTaskCommandValidator()
     {
-        RuleFor(x => x.Id).GreaterThan(0);
+        RuleFor(x => x.Id).NotEmpty();
     }
 }
 
-public class DeleteWorkOrderTaskCommandHandler : IRequestHandler<DeleteWorkOrderTaskCommand>
+public class DeleteTaskCommandHandler : IRequestHandler<DeleteTaskCommand>
 {
     private readonly IApplicationDbContext _context;
-    public DeleteWorkOrderTaskCommandHandler(IApplicationDbContext context) => _context = context;
+    public DeleteTaskCommandHandler(IApplicationDbContext context) => _context = context;
 
-    public async Task Handle(DeleteWorkOrderTaskCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.WorkOrderTasks.FindAsync(new object[] { request.Id }, cancellationToken);
+        var entity = await _context.Tasks.FindAsync(new object[] { request.Id }, cancellationToken);
         if (entity is null)
         {
             return;
         }
-        _context.WorkOrderTasks.Remove(entity);
+        _context.Tasks.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }
