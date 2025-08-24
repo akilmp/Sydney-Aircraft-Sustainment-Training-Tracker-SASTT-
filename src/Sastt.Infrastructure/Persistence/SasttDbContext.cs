@@ -19,6 +19,10 @@ public class SasttDbContext : DbContext
     public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
     public DbSet<TaskEntity> Tasks => Set<TaskEntity>();
     public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
